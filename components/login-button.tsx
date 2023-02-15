@@ -6,7 +6,7 @@ export default function LoginButton() {
     return (
       <>
       <li>
-        Signed in as {session.user.name}
+        Signed in as {session.user && session.user.name}
       </li>
         <li>
           <button className="outline" onClick={() => signOut({callbackUrl: "/"})}>Sign Out</button>
