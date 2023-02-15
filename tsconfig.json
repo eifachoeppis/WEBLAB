@@ -19,6 +19,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.js", "pages/administration.js", "components/navigation.ts", "components/layout.tsx", "pages/_app.js", "pages/_index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.ts", "pages/administration.tsx", "components/navigation.ts", "components/layout.tsx", pages/_app.tsxs", "pages/_index.js, "technology-service.js", "components/radar.js", "next.config.js"x"],
   "exclude": ["node_modules"]
 }
