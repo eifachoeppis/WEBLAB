@@ -2,7 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { Navigation } from "./navigation";
 
-export default function Layout({ children, home }) {
+interface LayoutProps{
+  children: React.ReactNode,
+  home: boolean
+}
+
+export default function Layout({ children, home }: LayoutProps) {
   return (
     <>
       <Head>

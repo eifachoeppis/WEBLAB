@@ -3,12 +3,7 @@ import { radar_visualization } from "../lib/radar";
 import styles from "./radar.module.css";
 
 export default function Radar() {
-  const legend_offset = [
-    { x: 350, y: 290 },
-    { x: -475, y: 290 },
-    { x: -475, y: -210 },
-    { x: 370, y: -210 },
-  ];
+
   const config = {
     svg_id: "radar",
     width: 1130,
@@ -43,6 +38,11 @@ export default function Radar() {
         label: "AWS Athena",
         active: true,
         moved: 0,
+        x: 0,
+        y: 0,
+        id: 0,
+        segment: null,
+        color: ""
       },
       {
         quadrant: 3,
@@ -590,7 +590,14 @@ export default function Radar() {
     { radius: 310 },
     { radius: 400 },
   ];
-  
+
+  const legend_offset = [
+    { x: 350, y: 290 },
+    { x: -475, y: 290 },
+    { x: -475, y: -210 },
+    { x: 370, y: -210 },
+  ];
+
   var seed = 42;
   function random() {
     var x = Math.sin(seed++) * 10000;
@@ -737,23 +744,23 @@ export default function Radar() {
       <svg width={config.width} height={config.height} className={styles.svg}>
         <g transform={`translate(${config.width / 2}, ${config.height / 2})`}>
           <g>
-            <line x1="0" y1="-400" x2="0" y2="400" className={styles.grid}></line>
-            <line x1="-400" y1="0" x2="400" y2="0" className={styles.grid}></line>
-            {config.rings.map(ring => (
+            <line key="x" x1="0" y1="-400" x2="0" y2="400" className={styles.grid}></line>
+            <line key="y" x1="-400" y1="0" x2="400" y2="0" className={styles.grid}></line>
+            {config.rings.map((ring, index) => (
               <>
-                <circle cx="0" cy="0" r={ring.radius} className={styles.ring} ></circle>
-                <text y={-ring.radius + 62} textAnchor="middle" className={styles.ringText} style={{fill: ring.color}}>{ring.name}</text>
+                <circle key={index} cx="0" cy="0" r={ring.radius} className={styles.ring} ></circle>
+                <text key={ring.name} y={-ring.radius + 62} textAnchor="middle" className={styles.ringText} style={{ fill: ring.color }}>{ring.name}</text>
               </>
             ))}
           </g>
           <g>
-              {config.quadrants.map((quadrant, index) => (
-                <text className={styles.quadrantText} transform={`translate(${legend_offset[index].x}, ${legend_offset[index].y})`}>{quadrant.name}</text>
-              ))}
+            {config.quadrants.map((quadrant, index) => (
+              <text key={index} className={styles.quadrantText} transform={`translate(${legend_offset[index].x}, ${legend_offset[index].y})`}>{quadrant.name}</text>
+            ))}
           </g>
           <g>
             {config.entries.map((entry, index) => (
-              <g transform={`transform(${legend_transform(entry.quadrant, entry.ring, index).x}, ${legend_transform(entry.quadrant, entry.ring, index).y})`}>
+              <g key={index} transform={`translate(${entry.x}, ${entry.y})`}>
                 <circle r="9" fill={config.rings[entry.ring].color}></circle>
                 <text y="3" textAnchor="middle" className={styles.blip}>{entry.id}</text>
               </g>

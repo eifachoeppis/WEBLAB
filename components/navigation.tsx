@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 import LoginButton from "./login-button";
+import { useSession } from "next-auth/react";
 
 export function Navigation() {
-  const session = useSession();
+  const { data: session } = useSession();
   return (
     <nav>
       <ul>
@@ -12,9 +12,13 @@ export function Navigation() {
         </li>
       </ul>
       <ul>
-        <li>
-          <input id="theme-toggle" type="checkbox" role="switch" />
-        </li>
+        {session &&
+          <li>
+            <Link href="/administration">
+              <button className="outline">Administration</button>
+            </Link>
+          </li>
+        }
         <LoginButton />
       </ul>
     </nav>
