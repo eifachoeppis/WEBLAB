@@ -35,3 +35,22 @@
     pointer-events: none;
     user-select: none;
 }
+
+.technologyList{
+    padding: 0px;
+}
+
+.listItem {
+    list-style-type: none;
+    padding: 2px;
+    margin: 0px;
+}
+
+.category{
+    margin-top: 48px;
+    margin-bottom: 12px;
+}
+
+.ringTitle{
+    margin-bottom: 12px;
+}

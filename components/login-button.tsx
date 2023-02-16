@@ -6,7 +6,7 @@ export default function LoginButton() {
     return (
       <>
       <li>
-        Signed in as {session.user && session.user.name}
+        Signed in as <strong>{session.user && session.user.name}</strong>
       </li>
         <li>
           <button className="outline" onClick={() => signOut({callbackUrl: "/"})}>Sign Out</button>
@@ -17,9 +17,7 @@ export default function LoginButton() {
   return (
     <>
       <li>
-        <Link href="/administration">
-            <button className="outline">Administration</button>
-        </Link>
+        <button className="outline" onClick={() => signIn()}>Sign In</button>
       </li>
     </>
   );

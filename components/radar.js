@@ -1,5 +1,3 @@
-import { useEffect, useRef } from "react";
-import { radar_visualization } from "../lib/radar";
 import styles from "./radar.module.css";
 
 export default function Radar() {
@@ -727,7 +725,7 @@ export default function Radar() {
 
   // assign unique sequential id to each entry
   var id = 1;
-  for (var quadrant of [2, 3, 1, 0]) {
+  for (var quadrant of [0, 1, 2, 3]) {
     for (var ring = 0; ring < 4; ring++) {
       var entries = segmented[quadrant][ring];
       entries.sort(function (a, b) {
@@ -742,25 +740,25 @@ export default function Radar() {
   return (
     <>
       <svg width={config.width} height={config.height} className={styles.svg}>
-        <g transform={`translate(${config.width / 2}, ${config.height / 2})`}>
+        <g key="frame" transform={`translate(${config.width / 2}, ${config.height / 2})`}>
           <g>
-            <line key="x" x1="0" y1="-400" x2="0" y2="400" className={styles.grid}></line>
-            <line key="y" x1="-400" y1="0" x2="400" y2="0" className={styles.grid}></line>
-            {config.rings.map((ring, index) => (
-              <>
-                <circle key={index} cx="0" cy="0" r={ring.radius} className={styles.ring} ></circle>
-                <text key={ring.name} y={-ring.radius + 62} textAnchor="middle" className={styles.ringText} style={{ fill: ring.color }}>{ring.name}</text>
-              </>
+            <line x1="0" y1="-400" x2="0" y2="400" className={styles.grid}></line>
+            <line x1="-400" y1="0" x2="400" y2="0" className={styles.grid}></line>
+            {config.rings.map((ring) => (
+              <g key={ring.radius}>
+                <circle cx="0" cy="0" r={ring.radius} className={styles.ring} ></circle>
+                <text y={-ring.radius + 62} textAnchor="middle" className={styles.ringText} style={{ fill: ring.color }}>{ring.name}</text>
+              </g>
             ))}
           </g>
           <g>
             {config.quadrants.map((quadrant, index) => (
-              <text key={index} className={styles.quadrantText} transform={`translate(${legend_offset[index].x}, ${legend_offset[index].y})`}>{quadrant.name}</text>
+              <text key={quadrant.name} className={styles.quadrantText} transform={`translate(${legend_offset[index].x}, ${legend_offset[index].y})`}>{quadrant.name}</text>
             ))}
           </g>
           <g>
-            {config.entries.map((entry, index) => (
-              <g key={index} transform={`translate(${entry.x}, ${entry.y})`}>
+            {config.entries.map((entry) => (
+              <g key={entry.id} transform={`translate(${Math.round((entry.x + Number.EPSILON) * 100) / 100}, ${Math.round((entry.y + Number.EPSILON) * 100) / 100})`}>
                 <circle r="9" fill={config.rings[entry.ring].color}></circle>
                 <text y="3" textAnchor="middle" className={styles.blip}>{entry.id}</text>
               </g>
@@ -768,6 +766,27 @@ export default function Radar() {
           </g>
         </g>
       </svg>
+      <div>
+        {config.quadrants.map((quadrant, quadrantIndex) => (
+          <div key={quadrant.name}>
+            <h5 className={styles.category}>{quadrant.name}</h5>
+            <div className="grid">
+              {config.rings.map((ring, ringIndex) => (
+
+                <div key={ring.radius}>
+                  <h6 className={styles.ringTitle}>{ring.name}</h6>
+                  <ul className={styles.technologyList}>
+                    {config.entries.filter(e => e.quadrant == quadrantIndex && e.ring === ringIndex).map(entry => (
+                      <li key={entry.id} className={styles.listItem}>{entry.id}. {entry.label}</li>
+                    ))}
+                  </ul>
+                </div>
+
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

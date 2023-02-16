@@ -1,8 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Navigation } from "./navigation";
+import styles from "./layout.module.css"
 
-interface LayoutProps{
+interface LayoutProps {
   children: React.ReactNode,
   home: boolean
 }
@@ -18,12 +19,15 @@ export default function Layout({ children, home }: LayoutProps) {
         <Navigation />
       </header>
       <main className="container">{children}</main>
-      {!home && (
-        <div>
+
+      <footer className={`${styles.footer} container`}>
+        {!home ? (
           <Link href="/">← Back to home</Link>
-        </div>
-      )}
-      <footer className="container">&copy; 2023</footer>
+        ) :
+          (
+            <Link href="/administration">→ Administration</Link>
+          )}
+      </footer>
     </>
   );
 }
