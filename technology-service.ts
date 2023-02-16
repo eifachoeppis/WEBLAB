@@ -29,4 +29,16 @@ async function postOne(technology: Technology) {
     await collection.insertOne(technology);
 }
 
-export { getTechnologies, getOne, postOne };
+async function updateOne(id: string, technology: Technology) {
+  technology.id = id;
+  const collection = await getCollection();
+  const query = { id: id };
+  await collection.updateOne(query, technology);
+}
+
+async function deleteOne(id: string){
+  const collection = await getCollection();
+  await collection.deleteOne({id: id});
+}
+
+export { getTechnologies, getOne, postOne, updateOne, deleteOne };

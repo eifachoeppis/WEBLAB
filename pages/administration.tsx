@@ -1,37 +1,38 @@
 import Layout from "@/components/layout";
+import { Category } from "@/models/category";
+import { Ring } from "@/models/ring";
+import Technology from "@/models/technology";
+import { getTechnologies } from "@/technology-service";
+import { GetServerSideProps } from "next";
 
-export default function Administration() {
-
-  var technologies = [
-    {
-      id: 1,
-      quadrant: 3,
-      ring: 3,
-      label: "AWS Data Pipeline"
-    },
-    {
-      id: 2,
-      quadrant: 3,
-      ring: 0,
-      label: "AWS EMR"
-    },
-    {
-      id: 3,
-      quadrant: 3,
-      ring: 2,
-      label: "AWS Glue"
-    },
-    {
-      id: 4,
-      quadrant: 3,
-      ring: 0,
-      label: "Airflow"
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const technologies = await getTechnologies();
+  technologies.sort((a, b) => a.category - b.category || a.ring - b.ring);
+  technologies.forEach((t, i) => t.order = i + 1);
+  return {
+    props: {
+      technologies: JSON.parse(JSON.stringify(technologies)),
     }
-  ]
+  }
+}
+
+export default function Administration({technologies}: { technologies: Technology[] }) {
+
+  const deleteTechnology = (id: string) => {
+
+  }
 
   return (
     <Layout home={false}>
       <h5>Administration</h5>
+      <nav>
+        <ul>
+        </ul>
+        <ul>
+          <button>ADD</button>
+        </ul>
+      
+      </nav>
       <table role="grid">
         <thead>
           <tr>
@@ -39,17 +40,17 @@ export default function Administration() {
             <th scope="col"><strong>Name</strong></th>
             <th scope="col"><strong>Category</strong></th>
             <th scope="col"><strong>Ring</strong></th>
-            <th scope="col"><strong>Actions</strong></th>
+            <th scope="col"><strong></strong></th>
           </tr>
         </thead>
         <tbody>
           {technologies.map(technology => (
-            <tr key={technology.id}>
-              <th scope="row">{technology.id}</th>
-              <td>{technology.label}</td>
-              <td>{technology.quadrant}</td>
-              <td>{technology.ring}</td>
-              <td>EDIT / ADD</td>
+            <tr key={technology.order}>
+              <th scope="row">{technology.order}</th>
+              <td>{technology.name}</td>
+              <td>{Category[technology.category]}</td>
+              <td>{Ring[technology.ring]}</td>
+              <td style={{textAlign: "right"}}><a href="#" role="button" className="outline">EDIT</a> <a href="#" role="button" className="outline contrast" onClick={() => deleteTechnology(technology.id ?? "")}>DELETE</a></td>
             </tr>
           ))}
         </tbody>
