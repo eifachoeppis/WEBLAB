@@ -20,7 +20,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function Administration({technologies}: { technologies: Technology[] }) {
 
   const router = useRouter();
-  const loading=false;
   const deleteTechnology = async (id: string) => {
     fetch(`/api/technologies/${id}`, {method: "DELETE"}).then(() => router.refresh());
   }
@@ -50,7 +49,7 @@ export default function Administration({technologies}: { technologies: Technolog
               <td>{technology.name}</td>
               <td>{Category[technology.category]}</td>
               <td>{Ring[technology.ring]}</td>
-              <td style={{textAlign: "right"}}><a href="#" role="button" className="outline">EDIT</a> <a href="#" role="button" className="outline" aria-busy={loading} style={{color: "#c62828", borderColor: "#c62828", marginLeft: "5px"}} onClick={() => deleteTechnology(technology.id ?? "")}>DELETE</a></td>
+              <td style={{textAlign: "right"}}><a href="#" role="button" className="outline">EDIT</a> <a href="#" role="button" className="outline" style={{color: "#c62828", borderColor: "#c62828", marginLeft: "5px"}} onClick={() => deleteTechnology(technology.id ?? "")}>DELETE</a></td>
             </tr>
           ))}
         </tbody>
