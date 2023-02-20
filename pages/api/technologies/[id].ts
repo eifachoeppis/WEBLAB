@@ -19,6 +19,7 @@ export default async function handler(
       break;
     case "DELETE":
       await deleteOne(id);
+      res.status(200).end("Deleted.");
       break;
     default:
       res.setHeader("Allow", ["GET", "POST", "DELETE"]);

@@ -1,6 +1,6 @@
 export enum Category{
-    Datastores = 0,
-    DataManagement = 1,
-    Infrastructure = 2,
-    Languages = 3
+    Datastores = 3,
+    DataManagement = 2,
+    Infrastructure = 1,
+    Languages = 0
 }

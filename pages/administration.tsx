@@ -2,8 +2,9 @@ import Layout from "@/components/layout";
 import { Category } from "@/models/category";
 import { Ring } from "@/models/ring";
 import Technology from "@/models/technology";
-import { getTechnologies } from "@/technology-service";
+import { deleteOne, getTechnologies } from "@/technology-service";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/navigation";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const technologies = await getTechnologies();
@@ -18,8 +19,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function Administration({technologies}: { technologies: Technology[] }) {
 
-  const deleteTechnology = (id: string) => {
-
+  const router = useRouter();
+  const loading=false;
+  const deleteTechnology = async (id: string) => {
+    fetch(`/api/technologies/${id}`, {method: "DELETE"}).then(() => router.refresh());
   }
 
   return (
@@ -47,7 +50,7 @@ export default function Administration({technologies}: { technologies: Technolog
               <td>{technology.name}</td>
               <td>{Category[technology.category]}</td>
               <td>{Ring[technology.ring]}</td>
-              <td style={{textAlign: "right"}}><a href="#" role="button" className="outline">EDIT</a> <a href="#" role="button" className="outline" style={{color: "#c62828", borderColor: "#c62828", marginLeft: "5px"}} onClick={() => deleteTechnology(technology.id ?? "")}>DELETE</a></td>
+              <td style={{textAlign: "right"}}><a href="#" role="button" className="outline">EDIT</a> <a href="#" role="button" className="outline" aria-busy={loading} style={{color: "#c62828", borderColor: "#c62828", marginLeft: "5px"}} onClick={() => deleteTechnology(technology.id ?? "")}>DELETE</a></td>
             </tr>
           ))}
         </tbody>
