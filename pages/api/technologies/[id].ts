@@ -16,6 +16,7 @@ export default async function handler(
     case "PUT":
       const technologyToUpdate = req.body as Technology;
       await updateOne(id, technologyToUpdate);
+      res.status(200).end("Updated.");
       break;
     case "DELETE":
       await deleteOne(id);

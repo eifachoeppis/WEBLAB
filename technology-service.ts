@@ -28,10 +28,16 @@ async function postOne(technology: Technology) {
 }
 
 async function updateOne(id: string, technology: Technology) {
-  technology.id = id;
   const collection = await getCollection();
   const query = { id: id };
-  await collection.updateOne(query, technology);
+  await collection.updateOne(query, {
+    $set: {
+      name: technology.name,
+      description: technology.description,
+      category: technology.category,
+      ring: technology.ring
+    }
+  });
 }
 
 async function deleteOne(id: string) {

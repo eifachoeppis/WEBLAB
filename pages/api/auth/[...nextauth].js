@@ -17,14 +17,13 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        return new Promise(resolve => resolve({name: "Lukas"}));
-        // const user = await getUserByName(credentials.username);
-        // if (user && (await bcrypt.compare(credentials.password, user.password))) {
-        //   return {
-        //     name: user.username,
-        //   };
-        // }
-        // return null;
+        const user = await getUserByName(credentials.username);
+        if (user && (await bcrypt.compare(credentials.password, user.password))) {
+          return {
+            name: user.username,
+          };
+        }
+        return null;
       },
     }),
   ],

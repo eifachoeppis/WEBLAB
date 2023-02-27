@@ -12,10 +12,10 @@ export default function Radar({ technologies }) {
       inactive: "#ddd",
     },
     quadrants: [
-      { name: "Languages" },
-      { name: "Infrastructure" },
-      { name: "Datastores" },
-      { name: "Data Management" },
+      { name: "Languages & Frameworks" },
+      { name: "Tools" },
+      { name: "Platforms" },
+      { name: "Techniques" },
     ],
     rings: [
       { name: "ADOPT", color: "#5ba300", radius: 130 },
@@ -25,7 +25,6 @@ export default function Radar({ technologies }) {
     ],
     entries: technologies,
   };
-
 
   const quadrants = [
     { radial_min: 0, radial_max: 0.5, factor_x: 1, factor_y: 1 },
@@ -43,7 +42,7 @@ export default function Radar({ technologies }) {
 
   const legend_offset = [
     { x: 350, y: 290 },
-    { x: -475, y: 290 },
+    { x: -405, y: 290 },
     { x: -475, y: -210 },
     { x: 370, y: -210 },
   ];
@@ -211,7 +210,7 @@ export default function Radar({ technologies }) {
                 <div key={ring.radius}>
                   <h6 className={styles.ringTitle}>{ring.name}</h6>
                   <ul className={styles.technologyList}>
-                    {config.entries.filter(e => e.category == quadrantIndex && e.ring === ringIndex).map(entry => (
+                    {config.entries.filter(e => e.category === quadrantIndex && e.ring === ringIndex).map(entry => (
                       <li key={entry.order} className={styles.listItem}>{entry.order}. {entry.name}</li>
                     ))}
                   </ul>
