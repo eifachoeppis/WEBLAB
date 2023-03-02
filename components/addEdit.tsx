@@ -31,13 +31,13 @@ export default function AddEdit({ technology }: AddEditProps) {
         body: JSON.stringify(data),
       }).then(() => router.push("/administration"));
     } else {
-        fetch(`/api/technologies`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }).then(() => router.push("/administration"));
+      fetch(`/api/technologies`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then(() => router.push("/administration"));
     }
   };
 
@@ -57,9 +57,11 @@ export default function AddEdit({ technology }: AddEditProps) {
         ></input>
         {errors?.name?.type === "required" && <p className={styles.errorText}>This field is required</p>}
         <label>Description</label>
-        <input {...register("description")}></input>
+        <input {...register("description", { required: true })} aria-invalid={errors?.name?.type === "required" ? true : undefined}>
+        </input>
+        {errors?.description?.type === "required" && <p className={styles.errorText}>This field is required</p>}
         <label>Category</label>
-        <select {...register("category", { valueAsNumber: true })}>
+        <select {...register("category", { valueAsNumber: true, required: true })}>
           <option value={Category["Languages & Frameworks"]}>
             {Category[Category["Languages & Frameworks"]]}
           </option>
@@ -80,6 +82,8 @@ export default function AddEdit({ technology }: AddEditProps) {
           <option value={Ring.Assess}>{Ring[Ring.Assess]}</option>
           <option value={Ring.Hold}>{Ring[Ring.Hold]}</option>
         </select>
+        <label>Ring description</label>
+        <input {...register("ringDescription")}></input>
         <input type="submit" disabled={!isDirty}></input>
       </form>
       <a href="#" onClick={() => router.back()}>← Back to administration</a>

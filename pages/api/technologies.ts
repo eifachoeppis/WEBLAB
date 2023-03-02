@@ -12,6 +12,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break;
     case "POST":
         const technologyToInsert = req.body as Technology;
+        technologyToInsert.savedAt = new Date();
+        //TODO get user from session
+        technologyToInsert.user = "";
         postOne(technologyToInsert);
         res.status(201).end();
       break;
