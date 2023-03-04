@@ -41,7 +41,7 @@ export default function Radar({ technologies }) {
   ];
 
   const legend_offset = [
-    { x: 350, y: 290 },
+    { x: 340, y: 290 },
     { x: -405, y: 290 },
     { x: -475, y: -210 },
     { x: 370, y: -210 },
