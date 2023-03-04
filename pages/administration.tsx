@@ -32,14 +32,28 @@ export default function Administration({
     );
   };
 
+  const deploy = async () => {
+    fetch("/api/deploy", { method: "POST" });
+    const dialog = document.getElementById('modal');
+    dialog?.setAttribute("open", "true");
+  }
+
+  const close = () =>{
+    const dialog = document.getElementById('modal');
+    dialog?.removeAttribute("open");
+  }
+
   return (
     <Layout home={false}>
       <h5>Administration</h5>
       <div style={{ display: "flex", alignItems: "end" }}>
         <div style={{ marginLeft: "auto" }}>
-          <Link href="/technologies/add">
-            <button style={{ marginBottom: "0px" }}>ADD</button>
+          <Link href="/technologies/add" role="button" style={{ marginBottom: "0px" }}>
+            ADD
           </Link>
+          <a href="#" role="button" style={{ marginBottom: "0px", marginLeft: "5px" }} onClick={deploy}>
+            DEPLOY
+          </a>
         </div>
       </div>
       <table role="grid">
@@ -113,6 +127,28 @@ export default function Administration({
           ))}
         </tbody>
       </table>
+      <dialog id="modal">
+  <article>
+    <a href="#close"
+      aria-label="Close"
+      className="close"
+      data-target="modal"
+      onClick={close}>
+    </a>
+    <h3>Deploying in progress...</h3>
+    <p>
+      Changes will be visible after around 1 minute.
+    </p>
+    <footer>
+      <a href="#confirm"
+        role="button"
+        data-target="modal"
+        onClick={close}>
+        Confirm
+      </a>
+    </footer>
+  </article>
+</dialog>
     </Layout>
   );
 }
