@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUserByName, addUser } from "../../../user-service";
+import { log } from "logging-service";
 const bcrypt = require("bcrypt");
 
 export const authOptions = {
@@ -19,10 +20,12 @@ export const authOptions = {
       async authorize(credentials, req) {
         const user = await getUserByName(credentials.username);
         if (user && (await bcrypt.compare(credentials.password, user.password))) {
+          log(`Succesful login with user '${user.username}'`);
           return {
             name: user.username,
           };
         }
+        log(`Failed login with user '${credentials.username}'`);
         return null;
       },
     }),
