@@ -35,7 +35,21 @@ async function updateOne(id: string, technology: Technology) {
       name: technology.name,
       description: technology.description,
       category: technology.category,
-      ring: technology.ring
+      editedAt: technology.editedAt,
+      editedBy: technology.editedBy
+    }
+  });
+}
+
+async function publishOne(id: string, technology: Technology) {
+  const collection = await getCollection();
+  const query = { id: id };
+  await collection.updateOne(query, {
+    $set: {
+      publish: technology.publish,
+      publishedAt: technology.publishedAt,
+      ring: technology.ring,
+      ringDescription: technology.ringDescription
     }
   });
 }
@@ -45,4 +59,4 @@ async function deleteOne(id: string) {
   await collection.deleteOne({ id: id });
 }
 
-export { getTechnologies, getOne, postOne, updateOne, deleteOne };
+export { getTechnologies, getOne, postOne, updateOne, deleteOne, publishOne };

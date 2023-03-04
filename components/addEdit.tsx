@@ -75,15 +75,18 @@ export default function AddEdit({ technology }: AddEditProps) {
             {Category[Category.Techniques]}
           </option>
         </select>
-        <label>Ring</label>
-        <select {...register("ring", { valueAsNumber: true })}>
-          <option value={Ring.Adopt}>{Ring[Ring.Adopt]}</option>
-          <option value={Ring.Trial}>{Ring[Ring.Trial]}</option>
-          <option value={Ring.Assess}>{Ring[Ring.Assess]}</option>
-          <option value={Ring.Hold}>{Ring[Ring.Hold]}</option>
-        </select>
-        <label>Ring description</label>
-        <input {...register("ringDescription")}></input>
+        {!edit && (
+          <>
+          <label>Ring</label>
+          <select {...register("ring", { valueAsNumber: true })}>
+            <option value={Ring.Adopt}>{Ring[Ring.Adopt]}</option>
+            <option value={Ring.Trial}>{Ring[Ring.Trial]}</option>
+            <option value={Ring.Assess}>{Ring[Ring.Assess]}</option>
+            <option value={Ring.Hold}>{Ring[Ring.Hold]}</option>
+          </select>
+          <label>Ring description</label>
+          <input {...register("ringDescription")}></input>
+          </>)}
         <input type="submit" disabled={!isDirty}></input>
       </form>
       <a href="#" onClick={() => router.back()}>← Back to administration</a>

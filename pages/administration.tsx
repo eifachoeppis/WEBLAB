@@ -6,6 +6,8 @@ import { deleteOne, getTechnologies } from "@/technology-service";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const technologies = await getTechnologies();
@@ -36,9 +38,7 @@ export default function Administration({
       <div style={{ display: "flex", alignItems: "end" }}>
         <div style={{ marginLeft: "auto" }}>
           <Link href="/technologies/add">
-            <button style={{ marginBottom: "0px" }}>
-              ADD
-            </button>
+            <button style={{ marginBottom: "0px" }}>ADD</button>
           </Link>
         </div>
       </div>
@@ -58,6 +58,9 @@ export default function Administration({
               <strong>Ring</strong>
             </th>
             <th scope="col">
+              <strong>Published</strong>
+            </th>
+            <th scope="col">
               <strong></strong>
             </th>
           </tr>
@@ -69,8 +72,27 @@ export default function Administration({
               <td>{technology.name}</td>
               <td>{Category[technology.category]}</td>
               <td>{Ring[technology.ring]}</td>
+              <td>
+                {technology.publish ? (
+                  <FontAwesomeIcon icon={faCheck} width={"18px"} />
+                ) : (
+                  <FontAwesomeIcon icon={faXmark} width={"18px"} />
+                )}
+              </td>
               <td style={{ textAlign: "right" }}>
-                <Link href={`technologies/edit/${technology.id}`} role="button" className="outline">
+                <Link
+                  href={`technologies/publish/${technology.id}`}
+                  role="button"
+                  className="outline"
+                >
+                  {technology.publish ? "UNPUBLISH" : "PUBLISH"}
+                </Link>
+                <Link
+                  href={`technologies/edit/${technology.id}`}
+                  role="button"
+                  className="outline"
+                  style={{ marginLeft: "5px" }}
+                >
                   EDIT
                 </Link>
                 <a

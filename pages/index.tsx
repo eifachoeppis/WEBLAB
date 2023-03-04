@@ -6,7 +6,8 @@ import { GetStaticProps } from "next";
 import Technology from "@/models/technology";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const technologies = await getTechnologies();
+  let technologies = await getTechnologies();
+  technologies = technologies.filter(t => t.publish);
   technologies.sort((a, b) => a.category - b.category || a.ring - b.ring);
   technologies.forEach((t, i) => t.order = i + 1);
   return {
