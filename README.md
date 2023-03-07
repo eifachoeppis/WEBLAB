@@ -8,5 +8,5 @@ URL: https://kaleidoscopic-sorbet-e5e1bb.netlify.app/
 To sign in into the Radar-Administration you can use the user:
 ```
 Username: weblab
-Password: awesome123  
+Password: awesome123
 ```
